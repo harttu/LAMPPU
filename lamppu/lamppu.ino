@@ -48,62 +48,123 @@
     Alex Leone <acleone ~AT~ gmail.com>, 2009-02-03 */
 
 #include "Tlc5940.h"
+#include <SoftwareSerial.h>
+
+SoftwareSerial BT(4,2); // RX, TX
+
+byte buffer[5];
 
 void setup()
 {
-  /* Call Tlc.init() to setup the tlc.
-     You can optionally pass an initial PWM value (0 - 4095) for all channels.*/
-  Tlc.init();
-}
+  Tlc.init(1600);
+  
+  Serial.begin(9600);
+  BT.begin(9600);
+  byte luku = 3;
+  int luku2 = luku;
+  Serial.write("Serial toimii");
+  Serial.print(9);
+  Serial.write(luku);
 
-/* This loop will create a Knight Rider-like effect if you have LEDs plugged
-   into all the TLC outputs.  NUM_TLCS is defined in "tlc_config.h" in the
-   library folder.  After editing tlc_config.h for your setup, delete the
-   Tlc5940.o file to save the changes. */
+  struct LED   { int alkuR; 
+                 int alkuG; 
+                 int alkuB; 
+                 int loppuR; 
+                 int loppuG; 
+                 int loppuB; 
+               };
+  LED led1 = { 0,0,0,255,255,0};
+
+
+
+  Tlc.clear();
+
+  
+  Tlc.set(0, 2000);
+  Tlc.set(1, 2000);
+  Tlc.set(2, 1234);
+ // Tlc.set(3, 234);
+
+
+  Tlc.update();
+
+  delay(5);
+
+
+}
 
 void loop()
 {
-  for (int i = 0; i < 4096; i++ ) {
-
-    /* Tlc.clear() sets all the grayscale values to zero, but does not send
-       them to the TLCs.  To actually send the data, call Tlc.update() */
+  for(int i = 0; i < 100; i++) {
+    int R = (( led1.loppuR - led1.alkuR ) / 100 ) * ( i ) + led1.alkuR; 
+    int G = (( led1.loppuG - led1.alkuG ) / 100 ) * ( i ) + led1.alkuG;
+    int B = (( led1.loppuB - led1.alkuB ) / 100 ) * ( i ) + led1.alkuB;
     Tlc.clear();
-
-    /* Tlc.set(channel (0-15), value (0-4095)) sets the grayscale value for
-       one channel (15 is OUT15 on the first TLC, if multiple TLCs are daisy-
-       chained, then channel = 16 would be OUT0 of the second TLC, etc.).
-
-       value goes from off (0) to always on (4095).
-
-       Like Tlc.clear(), this function only sets up the data, Tlc.update()
-       will send the data. */
-
-/*
-    if (channel == 0) {
-      direction = 1;
-    } else {
-      Tlc.set(channel - 1, 1000);
-    }
-    Tlc.set(channel, 4095);
-    if (channel != NUM_TLCS * 16 - 1) {
-      Tlc.set(channel + 1, 1000);
-    } else {
-      direction = -1;
-    }
-*/
-    /* Tlc.update() sends the data to the TLCs.  This is when the LEDs will
-       actually change. */
-    
-    Tlc.set(0, i);
-    Tlc.set(1, i);
-    Tlc.set(2, i);
-    Tlc.set(3, i);
-
-  
+    Tlc.set(0,R * 16);
+    Tlc.set(1,G * 16);
+    Tlc.set(2,B * 16);
     Tlc.update();
-
-    delay(5);
+    delay(75);
   }
 
-}
+  
+  if( BT.available() >= 5 ) {
+    char merkki = BT.read();
+//    Serial.write(merkki);
+    if(merkki != 35) { // 35 is the ASCII value for '#'
+      Serial.write("<Ei valmis.");
+      Serial.println();
+    }
+    else {
+      Serial.write("Valmis.");
+      Serial.println();
+      Serial.write("Muutetaan LEDia:");
+      char ledNumber = BT.read();
+      int ledNumero = ledNumber - 48; // another way to convert to int
+      Serial.print(ledNumero);
+      Serial.println();
+      
+      Serial.write("Arvoon:");
+      char hundreds = BT.read();
+      char tens = BT.read();
+      char ones = BT.read();
+/*      Serial.println("Sadat:");
+      Serial.write(hundreds);
+      Serial.println("\nKymmenet:");
+      Serial.write(tens);
+      Serial.println("\nYhdet:");
+      Serial.write(ones);
+      Serial.println(); */
+      int sadat = (hundreds - '0') * 100; // convert char to int
+      int kymmenet = (tens - '0') * 10; 
+      int yhdet = (ones - '0');
+   /*   Serial.println("Sadat\n");
+      Serial.print(sadat);
+      Serial.println();
+      Serial.println("Kymmenet\n");
+      Serial.print(kymmenet);
+      Serial.println("Yhdet\n");
+      Serial.print(yhdet);
+      Serial.println("Koko luku\n"); */
+      int i = 16 * (sadat + kymmenet + yhdet);
+      Serial.print(i);
 
+      Tlc.clear();
+  
+      
+      Tlc.set(0, i);
+      Tlc.set(1, i);
+      Tlc.set(2, i);
+      Tlc.set(3, i);
+  
+    
+      Tlc.update();
+      Serial.println();
+    }
+  }
+
+  // 67#1R255#2G120#5B088
+  //    |          |
+} // loop()
+  
+  
