@@ -54,6 +54,15 @@ SoftwareSerial BT(4,2); // RX, TX
 
 byte buffer[5];
 
+struct LED   { int alkuR; 
+                 int alkuG; 
+                 int alkuB; 
+                 int loppuR; 
+                 int loppuG; 
+                 int loppuB; 
+               };
+LED led1 = { 0,0,0,255,255,0};
+
 void setup()
 {
   Tlc.init(1600);
@@ -66,31 +75,16 @@ void setup()
   Serial.print(9);
   Serial.write(luku);
 
-  struct LED   { int alkuR; 
-                 int alkuG; 
-                 int alkuB; 
-                 int loppuR; 
-                 int loppuG; 
-                 int loppuB; 
-               };
-  LED led1 = { 0,0,0,255,255,0};
-
-
-
   Tlc.clear();
-
   
   Tlc.set(0, 2000);
   Tlc.set(1, 2000);
   Tlc.set(2, 1234);
  // Tlc.set(3, 234);
 
-
   Tlc.update();
 
   delay(5);
-
-
 }
 
 void loop()
@@ -147,20 +141,20 @@ void loop()
       Serial.print(yhdet);
       Serial.println("Koko luku\n"); */
       int i = 16 * (sadat + kymmenet + yhdet);
-      Serial.print(i);
-
-      Tlc.clear();
-  
-      
-      Tlc.set(0, i);
-      Tlc.set(1, i);
-      Tlc.set(2, i);
-      Tlc.set(3, i);
-  
-    
-      Tlc.update();
-      Serial.println();
-    }
+      if( i < 4096 ) {
+          Serial.print(i);
+          Tlc.clear();
+          Tlc.set(0, i);
+          Tlc.set(1, i);
+          Tlc.set(2, i);
+          Tlc.set(3, i);
+          Tlc.update();
+          Serial.println();
+      }
+      else {
+        Serial.println("Anna luku arvo valilta 0 - 255"); 
+      } 
+    } 
   }
 
   // 67#1R255#2G120#5B088
