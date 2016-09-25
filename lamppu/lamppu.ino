@@ -6,6 +6,7 @@
  
 #define NODEJENLKM 5
 #define VALIENLKM 4
+#define LEDIENLKM 4
 
 const uint32_t PROGMEM gamma[] = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,
@@ -23,46 +24,7 @@ const uint32_t PROGMEM gamma[] = {
   1851,1878,1905,1933,1960,1989,2017,2046,2075,2104,2133,2163,2193,2223,2254,2284,
   2315,2347,2378,2410,2442,2475,2507,2540,2573,2607,2641,2675,2709,2744,2779,2814,
   2849,2885,2921,2957,2994,3031,3068,3106,3144,3182,3220,3259,3298,3337,3376,3416,
-  3457,3497,3538,3579,3620,3662,3704,3746,3789,3832,3875,3919,3962,4007,4051,4096 };
-/*
-
-const int oGamma[] = {
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,
-    2,  2,  2,  3,  3,  4,  4,  5,  5,  6,  7,  8,  8,  9, 10, 11,
-   12, 13, 15, 16, 17, 18, 20, 21, 23, 25, 26, 28, 30, 32, 34, 36,
-   38, 40, 43, 45, 48, 50, 53, 56, 59, 62, 65, 68, 71, 75, 78, 82,
-   85, 89, 93, 97,101,105,110,114,119,123,128,133,138,143,149,154,
-  159,165,171,177,183,189,195,202,208,215,222,229,236,243,250,258,
-  266,274,282,290,298,306,315,324,332,341,351,360,370,379,389,399,
-  409,419,430,441,451,462,473,485,496,508,520,532,544,556,569,582,
-  595,608,621,634,648,662,676,690,705,719,734,749,764,780,795,811,
-  827,843,859,876,893,910,927,944,962,980,998,1016,1035,1053,1072,1091,
-  1111,1130,1150,1170,1190,1211,1231,1252,1273,1295,1316,1338,1360,1382,1405,1427,
-  1450,1474,1497,1521,1545,1569,1593,1618,1643,1668,1693,1719,1745,1771,1797,1824,
-  1851,1878,1905,1933,1960,1989,2017,2046,2075,2104,2133,2163,2193,2223,2254,2284,
-  2315,2347,2378,2410,2442,2475,2507,2540,2573,2607,2641,2675,2709,2744,2779,2814,
-  2849,2885,2921,2957,2994,3031,3068,3106,3144,3182,3220,3259,3298,3337,3376,3416,
-  3457,3497,3538,3579,3620,3662,3704,3746,3789,3832,3875,3919,3962,4007,4051,4096 };
-*/
-/*
-const uint8_t PROGMEM gamma[] = {
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
-    2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
-    5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
-   10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
-   17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
-   25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
-   37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
-   51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
-   69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
-   90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
-  115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
-  144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
-  177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
-  215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255 };
-*/
+  3457,3497,3538,3579,3620,3662,3704,3746,3789,3832,3875,3919,3962,4007,4051,4095 };
 
 SoftwareSerial BT(4,2); // RX, TX
 
@@ -75,10 +37,12 @@ struct LED {
   int B[NODEJENLKM];// = {0,0,0,255}; 
 };
 
-struct LED ledi1 = { {1,1,1,1,1}, {0,255,50,100,0}, {0,0,0,0,0}, {0,0,0,0,0} };
+struct LED ledi1 = { {1,1,1,1,1}, {0,255,0,255,0}, {0,0,0,0,0}, {0,0,0,0,0} };
+struct LED ledi2 = { {1,1,1,1,1}, {255,0,255,0,0}, {0,0,0,0,0}, {0,0,0,0,0} };
+struct LED ledi3 = { {1,1,1,1,1}, {0,255,50,100,0}, {0,0,0,0,0}, {0,0,0,0,0} };
+struct LED ledi4 = { {1,1,1,1,1}, {0,255,50,100,0}, {0,0,0,0,0}, {0,0,0,0,0} };
 
-//struct LED ledi1 = { {1,1,1,1,0,1,0,1}, {0,255,50,100,0,0,0,255}, {0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0} };
-
+struct LED ledit[4] = { ledi1, ledi2, ledi3, ledi4 };
 
 //struct LED* ledi2 = &ledi1;
 
@@ -134,6 +98,20 @@ void muutaRGBTila(int *R, int *G,int *B, int alkuNode, struct LED *led, int i, i
     *G = (( led->G[loppu] - led->G[alku] ) / (double) iMax ) * ( i ) + led->G[alku];
     *B = (( led->B[loppu] - led->B[alku] ) / (double) iMax ) * ( i ) + led->B[alku];
 }
+
+
+void muutaRGBTila2(int *R, int *G,int *B, int alkuNode, struct LED *led, int i, int iMax = 100) {
+    int alku = alkuNode;      // alku on alkuNode
+    int loppu = alkuNode + 1; // Loppuväli on alkuNode + 1
+//    Serial.println(R[in);
+//struct LED2 ledi1 = { {1,  0,  1,    1,    0,  0,  0,  1}, 
+//                R     {0,  0,  100,  150,  0,  0,  0,  255}, 
+
+    *R = (( led->R[loppu] - led->R[alku] ) / (double) iMax ) * ( i ) + led->R[alku];
+    *G = (( led->G[loppu] - led->G[alku] ) / (double) iMax ) * ( i ) + led->G[alku];
+    *B = (( led->B[loppu] - led->B[alku] ) / (double) iMax ) * ( i ) + led->B[alku];
+}
+
 
 void setup()
 {
@@ -203,49 +181,45 @@ void loop()
     nodeNyt = 0;
     for(int oI = 0; oI < VALIENLKM; oI++ ) {
       messageReady();
-      Serial.println("G arvot:");
+      Serial.println("R arvot:");
       for(int t = 0;t < NODEJENLKM; t++) {
         Serial.print("  t:n arvo :");
         Serial.println(t);
         Serial.print("    X:n arvo :");
         Serial.println(ledi1.X[t]);
-        Serial.print("    G:n arvo :");
-        Serial.println(ledi1.G[t]);
+        Serial.print("    R:n arvo :");
+        Serial.println(ledi1.R[t]);
       }
       Serial.print("------------------- nodeNyt:");
       Serial.println(nodeNyt);
       for(int i = 0; i < 100; i++) {
-          // Mennään for-loopissa kaikki ledit läpi
-          // Lasketaan ensimmäisen (0 C:ssä) ledin tila kohdassa i
-        //  muutaRGBTila(&R[0],&G[0],&B[0],nodeNyt,&ledi1,i,100);
-          muutaRGBTila(&R[0],&G[0],&B[0],nodeNyt,&ledi1,i,100);
-        // Nollataan vanha ja asetetaan uusi
+        // Mennään for-loopissa kaikki ledit läpi
+        // Lasketaan ensimmäisen (0 C:ssä) ledin tila kohdassa i
+   //     Tlc.clear();
+        for( int e = 0; e < LEDIENLKM; e++ ) {
+          muutaRGBTila2(&R[e],&G[e],&B[e],nodeNyt,&ledit[e],i,100);
+          
+          Serial.print("        indexi (e) :");
+          Serial.println(e);
+          Serial.print("          ledin jalka :");
+          Serial.println(3*e+2);
+          Serial.print("              signaali :");
+          Serial.println(pgm_read_word_near(&gamma[R[e]]));
         
-        Tlc.clear();
- 
- /*
-        Serial.print("------>Lahetan G[0]:lle");
-        Serial.println(G[0]);
-
-
-        Serial.print("------>Lahetan gamma[G[0]]:lle");
-        Serial.println(gamma[G[0]]);
-        
- 
- 
- 
- 
-        Tlc.set(0,gamma[G[0]] * 16);
-        Tlc.set(1,gamma[B[0]] * 16);
-        Tlc.set(2,gamma[R[0]] * 16);
-  */
-       Tlc.set(0, pgm_read_word_near(&gamma[G[0]])  );
-        Tlc.set(1, pgm_read_word_near(&gamma[B[0]]) );
-        Tlc.set(2, pgm_read_word_near(&gamma[R[0]]) );
-   
+          Tlc.set(3 * e + 0, pgm_read_word_near(&gamma[G[e]]) );
+          Tlc.set(3 * e + 1, pgm_read_word_near(&gamma[B[e]]) );
+          Tlc.set(3 * e + 2, pgm_read_word_near(&gamma[R[e]]) );  
+         
+        }
+        Serial.println("-------Paivitetaan-----------");
         Tlc.update();
         delay(50);
-       // Serial.println(R);
+       /*   muutaRGBTila2(&R[e],&G[0],&B[0],nodeNyt,&ledi1,i,100);
+          Tlc.clear();
+          Tlc.set(0, pgm_read_word_near(&gamma[G[0]]) );
+          Tlc.set(1, pgm_read_word_near(&gamma[B[0]]) );
+          Tlc.set(2, pgm_read_word_near(&gamma[R[0]]) );  
+          Tlc.update();*/
       }
       nodeNyt++;
     }
@@ -286,8 +260,8 @@ void messageReady() {
       Serial.println();
       Serial.write("Muutetaan LEDia:");
       char ledNumber = BT.read();
-      int ledNumero = ledNumber - 48; // another way to convert to int
-      Serial.print(ledNumero);
+      int ledinNumero = ledNumber - 48; // another way to convert to int
+      Serial.print(ledinNumero);
       Serial.println();
       
       bool komento = 0;
@@ -353,38 +327,41 @@ void messageReady() {
       }
       Serial.print("<----");
       
-      if( komento ) {
-        Serial.println("Asetan X arvot");
-        for( int i = 0; i < NODEJENLKM ; i++ ) {
-          ledi1.X[i] = RGBXbuffer[i];    
-        }
-      }
-      else if( Rvalittu ) {
-        Serial.println("Asetan R arvot");
-        for( int i = 0; i < NODEJENLKM ; i++ ) {
-          ledi1.R[i] = RGBXbuffer[i];    
-        }
-      }
-      else if( Gvalittu ) {
-        Serial.println("Asetan G arvot");
-        for( int i = 0; i < NODEJENLKM ; i++ ) {
-          ledi1.G[i] = RGBXbuffer[i];    
-          Serial.print("ledi1.G[");
-          Serial.print(i);
-          Serial.println("]");
-        }
-      }
-      else if( Bvalittu ) {
-        Serial.println("Asetan B arvot");
-        for( int i = 0; i < NODEJENLKM ; i++ ) {
-          ledi1.B[i] = RGBXbuffer[i];    
-        }
-      }
-      else {
-        Serial.println("Skipataan tama kierros. Komentoa ei tunnistettu");
-
-    } 
-    valmisteleLedi(&ledi1);
+      if( ledinNumero == 1 || ledinNumero == 2 || ledinNumero == 3 || ledinNumero == 4 ) {
+            
+            if( komento ) {
+              Serial.println("Asetan X arvot");
+              for( int i = 0; i < NODEJENLKM ; i++ ) {
+                ledit[ledinNumero].X[i] = RGBXbuffer[i];    
+              }
+            }
+            else if( Rvalittu ) {
+              Serial.println("Asetan R arvot");
+              for( int i = 0; i < NODEJENLKM ; i++ ) {
+                ledit[ledinNumero].R[i] = RGBXbuffer[i];    
+              }
+            }
+            else if( Gvalittu ) {
+              Serial.println("Asetan G arvot");
+              for( int i = 0; i < NODEJENLKM ; i++ ) {
+                ledit[ledinNumero].G[i] = RGBXbuffer[i];    
+                Serial.print("ledi1.G[");
+                Serial.print(i);
+                Serial.println("]");
+              }
+            }
+            else if( Bvalittu ) {
+              Serial.println("Asetan B arvot");
+              for( int i = 0; i < NODEJENLKM ; i++ ) {
+                ledit[ledinNumero].B[i] = RGBXbuffer[i];    
+              }
+            }
+            else {
+              Serial.println("Skipataan tama kierros. Komentoa ei tunnistettu");
+      
+          } 
+          valmisteleLedi(&ledi1);
+      } // if( ledinNumero === 1 || ....
 //    if(
     } 
   } // if( BT.available() >= 11 )
